@@ -2,30 +2,66 @@ import java.util.*;
 import java.io.*;
 
 public class URLify {
-  private String replaceSpaces(String testCase, int strlen) {
-    return testCase;
+  private char[] replaceSpaces(char[] testArr, int strlen) {
+    int countOfSpaces = countChar(testArr, 0, strlen, ' ');
+    int newIndex = (strlen - 1) + (countOfSpaces * 2);
+    int oldIndex = strlen - 1;
+    for (; newIndex >= oldIndex && oldIndex > 0; newIndex--) {
+      if (testArr[oldIndex] == ' ') {
+        testArr[newIndex] = '0';
+        newIndex--;
+        testArr[newIndex] = '2';
+        newIndex--;
+        testArr[newIndex] = '%';
+        oldIndex--;
+      } else {
+        testArr[newIndex] = testArr[oldIndex];
+        oldIndex--;
+      }
+    }
+    return testArr;
+  }
+
+  private int countChar(char[] testArr, int start, int end, char matcher) {
+    int count = 0;
+
+    for(int i = start; i < end; i++) {
+      if (testArr[i] == matcher) {
+        count++;
+      }
+    }
+    return count;
   }
 
   public static void main(String[] args) {
     URLify checker = new URLify();
 
+    char[] expectedArr, actualArr, testArr;
     ArrayList<String> testCases = new ArrayList<String>();
     ArrayList<String> expected = new ArrayList<String>();
 
-    testCases.add("Mr John Smith    ");
-    expected.add("Mr%20John%20Smith");
+    testArr = "Mr John Smith    ".toCharArray();
+    expectedArr = "Mr%20John%20Smith".toCharArray();
+    actualArr = checker.replaceSpaces(testArr, 13);
 
-    testCases.add("Hello");
-    expected.add("Hello");
+    if(actualArr.equals(expectedArr)) {
+      System.out.println("Failed on:\n" + new String(testArr) + "\n" + new String(actualArr));
+    }
 
-    testCases.add("This is a test      ");
-    expected.add("This%20is%20a%20test");
+    testArr = "Hello".toCharArray();
+    expectedArr = "Hello".toCharArray();
+    actualArr = checker.replaceSpaces(testArr, 5);
 
-    for(int i = 0; i < testCases.size(); i++) {
-      int strlen = testCases.get(i).strip().length();
-      if(checker.replaceSpaces(testCases.get(i), strlen) != expected.get(i)) {
-        System.out.println("Failed on: " + testCases.get(i));
-      }
+    if(actualArr.equals(expectedArr)) {
+      System.out.println("Failed on:\n" + new String(testArr) + "\n" + new String(actualArr));
+    }
+
+    testArr = "This is a test      ".toCharArray();
+    expectedArr = "This%20is%20a%20test".toCharArray();
+    actualArr = checker.replaceSpaces(testArr, 5);
+
+    if(actualArr.equals(expectedArr)) {
+      System.out.println("Failed on:\n" + new String(testArr) + "\n" + new String(actualArr));
     }
   }
 }
