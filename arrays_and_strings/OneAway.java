@@ -65,5 +65,18 @@ public class OneAway {
     } else {
       System.out.println("PASSED: pape, pal");
     }
+
+    if (checker.isOneAway("apple".toCharArray(), "aple".toCharArray())) {
+      System.out.println("PASSED: apple, aple");
+    } else {
+      System.out.println("FAILED: apple, aple");
+    }
+
+    if (checker.isOneAway("aple".toCharArray(), "apple".toCharArray())) {
+      System.out.println("PASSED: apple, aple");
+    } else {
+      System.out.println("FAILED: apple, aple");
+    }
+
   }
 }
