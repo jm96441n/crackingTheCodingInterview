@@ -46,6 +46,10 @@ class LinkedList<T> {
     return this.size == 0;
   }
 
+  public Node<T> getHead() {
+    return this.head;
+  }
+
   public T kthElementFromEnd(int k) {
     Node<T> frontNode = this.head;
     int i;
@@ -62,6 +66,18 @@ class LinkedList<T> {
     }
 
     return valueNode.getValue();
+  }
+
+  public int recursiveKthElement(Node<T> node, int k) {
+    if (node == null) {
+      return 0;
+    }
+
+    int idx = recursiveKthElement(node.getNext(), k) + 1;
+    if (idx == k) {
+      System.out.println("Result:\n\tIndex: " + k + "\n\tValue: " + node.getValue());
+    }
+    return idx;
   }
 }
 
@@ -106,6 +122,16 @@ public class KthElement<T> {
 
       System.out.println();
       System.out.println();
+    }
+
+    for(Map.Entry<Integer, Integer> testCase : testCases.entrySet()) {
+      int arg = testCase.getKey();
+
+      int expectedIntResult = testCase.getValue();
+      String expectedStringResult = Integer.toString(expectedIntResult);
+
+      testIntegers.recursiveKthElement(testIntegers.getHead(), arg);
+      testStrings.recursiveKthElement(testStrings.getHead(), arg);
     }
   }
 }
